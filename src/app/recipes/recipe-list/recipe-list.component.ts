@@ -11,31 +11,29 @@ import { RecipeService } from '../recipe.service';
   styleUrls: ['./recipe-list.component.css']
 })
 export class RecipeListComponent implements OnInit, OnDestroy {
-    recipes: Recipe[] 
-    subscription: Subscription;
+  recipes: Recipe[];
+  subscription: Subscription;
 
   constructor(private recipeService: RecipeService,
-             private router: Router,
-             private route: ActivatedRoute) {
-
-   }
+              private router: Router,
+              private route: ActivatedRoute) {
+  }
 
   ngOnInit() {
-   this.subscription = this.recipeService.recipesChanged
-    .subscribe(
-      (recipes: Recipe[]) => {
-        this.recipes = recipes;
-      }
-    );
+    this.subscription = this.recipeService.recipesChanged
+      .subscribe(
+        (recipes: Recipe[]) => {
+          this.recipes = recipes;
+        }
+      );
     this.recipes = this.recipeService.getRecipes();
   }
 
   onNewRecipe() {
-    this.router.navigate(['new'], {relativeTo: this.route})
+    this.router.navigate(['new'], {relativeTo: this.route});
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.subscription.unsubscribe();
   }
-
 }
