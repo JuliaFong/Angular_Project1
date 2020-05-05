@@ -4,13 +4,14 @@ import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 
 
-interface AuthResponseData {
+export interface AuthResponseData {
     kind: string
     idToken: string
     email: string
     refreshToken: string
     expiresIn: string
     localId: string
+    registered?: boolean
 }
 
 @Injectable({ providedIn: 'root' })
@@ -23,7 +24,7 @@ export class AuthService {
           {   
             email: email,
             password: password,
-            returnSecureToken: true
+            returnSecureToken: true,
           }
         ).pipe(catchError(errorRes => {
             let errorMessage = 'An unknown error occurred!!'
@@ -36,6 +37,17 @@ export class AuthService {
             }
             return throwError(errorMessage)
         }));
+    }
+
+    login(email: string, password: string){
+        return this.http.post<AuthResponseData>(
+          'https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=AIzaSyD-4cwnIFJ04ogo9o1gxk5mtr3WczjN4ZY',
+          {
+            email: email,
+            password: password,
+            returnSecureToken: true,
+          }
+        )
     }
 
 }
