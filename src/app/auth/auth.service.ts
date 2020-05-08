@@ -27,7 +27,7 @@ export class AuthService {
   signup(email: string, password: string) {
     return this.http
       .post<AuthResponseData>(
-        'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyDb0xTaRAoxyCgvaDF3kk5VYOsTwB_3o7Y',
+        'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?kehttps://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyD-4cwnIFJ04ogo9o1gxk5mtr3WczjN4ZY',
         {
           email: email,
           password: password,
@@ -96,10 +96,10 @@ export class AuthService {
         errorMessage = 'This email exists already';
         break;
       case 'EMAIL_NOT_FOUND':
-        errorMessage = 'This email does not exist.';
+        errorMessage = 'This email or password does not exist.';
         break;
       case 'INVALID_PASSWORD':
-        errorMessage = 'This password is not correct.';
+        errorMessage = 'This email or password is not correct.';
         break;
     }
     return throwError(errorMessage);
