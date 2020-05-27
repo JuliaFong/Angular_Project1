@@ -12,7 +12,6 @@ export const STOP_EDIT = 'STOP_EDIT'
 export class AddIngredient implements Action {
   readonly type = ADD_INGREDIENT;
   
-  
   constructor(public payload: Ingredient) {}
 }
 
