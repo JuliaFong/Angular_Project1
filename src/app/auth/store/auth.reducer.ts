@@ -1,8 +1,13 @@
+import { User } from '../user.model';
 
-const initialState = {
-    
+export interface State {
+    user: User
 }
 
-export function authReducer(state, action) {
+const initialState: State = {
+    user: null
+}
+
+export function authReducer(state = initialState, action) {
     return state
 }
