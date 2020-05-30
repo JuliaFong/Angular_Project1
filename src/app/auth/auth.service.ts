@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { catchError, tap } from 'rxjs/operators';
 import { throwError, BehaviorSubject } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { environment } from '../../environments/environment';
+
 
 import { User } from './user.model';
 import * as fromApp from '../store/app.reducer';
@@ -26,15 +26,15 @@ export class AuthService {
   private tokenExpirationTimer: any;
 
   constructor(
-    private http: HttpClient, 
+    private http: HttpClient,
     private router: Router,
     private store: Store<fromApp.AppState>
-    ) {}
+  ) {}
 
   signup(email: string, password: string) {
     return this.http
       .post<AuthResponseData>(
-        'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyD-4cwnIFJ04ogo9o1gxk5mtr3WczjN4ZY',
+        'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyD-4cwnIFJ04ogo9o1gxk5mtr3WczjN4ZY', 
         {
           email: email,
           password: password,
@@ -57,7 +57,7 @@ export class AuthService {
   login(email: string, password: string) {
     return this.http
       .post<AuthResponseData>(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyD-4cwnIFJ04ogo9o1gxk5mtr3WczjN4ZY',
+        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyD-4cwnIFJ04ogo9o1gxk5mtr3WczjN4ZY', 
         {
           email: email,
           password: password,
@@ -97,11 +97,12 @@ export class AuthService {
 
     if (loadedUser.token) {
       // this.user.next(loadedUser);
-      this.store.dispatch(new AuthActions.Login({
-        email: loadedUser.email, 
-        userId: loadedUser.id, 
-        token: loadedUser.token,
-         expirationDate: new Date(userData._tokenExpirationDate)
+      this.store.dispatch(
+        new AuthActions.Login({
+          email: loadedUser.email,
+          userId: loadedUser.id,
+          token: loadedUser.token,
+          expirationDate: new Date(userData._tokenExpirationDate)
         })
       );
       const expirationDuration =
@@ -113,7 +114,7 @@ export class AuthService {
 
   logout() {
     // this.user.next(null);
-    this.store.dispatch(new AuthActions.Logout())
+    this.store.dispatch(new AuthActions.Logout());
     this.router.navigate(['/auth']);
     localStorage.removeItem('userData');
     if (this.tokenExpirationTimer) {
@@ -137,11 +138,12 @@ export class AuthService {
     const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
     // this.user.next(user);
     const user = new User(email, userId, token, expirationDate);
-    this.store.dispatch(new AuthActions.Login({
-      email: email, 
-      userId: userId, 
-      token: token, 
-      expirationDate: expirationDate
+    this.store.dispatch(
+      new AuthActions.Login({
+        email: email,
+        userId: userId,
+        token: token,
+        expirationDate: expirationDate
       })
     );
     this.autoLogout(expiresIn * 1000);

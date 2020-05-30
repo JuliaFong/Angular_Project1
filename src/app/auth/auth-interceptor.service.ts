@@ -13,16 +13,13 @@ import * as fromApp from '../store/app.reducer';
 
 @Injectable()
 export class AuthInterceptorService implements HttpInterceptor {
-  constructor(
-    private authService: AuthService,
-    private store: Store<fromApp.AppState>
-    ) {}
+  constructor(private authService: AuthService, private store: Store<fromApp.AppState>) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     return this.store.select('auth').pipe(
       take(1),
       map(authState => {
-        return authState.user
+        return authState.user;
       }),
       exhaustMap(user => {
         if (!user) {
