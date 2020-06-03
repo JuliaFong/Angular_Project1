@@ -2,13 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { catchError, tap } from 'rxjs/operators';
-import { throwError, BehaviorSubject } from 'rxjs';
+import { throwError, BehaviorSubject, from } from 'rxjs';
 import { Store } from '@ngrx/store';
+
 
 
 import { User } from './user.model';
 import * as fromApp from '../store/app.reducer';
 import * as AuthActions from './store/auth.actions';
+import { environment } from 'src/environments/environment.prod';
 
 export interface AuthResponseData {
   kind: string;
@@ -34,7 +36,8 @@ export class AuthService {
   signup(email: string, password: string) {
     return this.http
       .post<AuthResponseData>(
-        'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyD-4cwnIFJ04ogo9o1gxk5mtr3WczjN4ZY', 
+        'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyD-4cwnIFJ04ogo9o1gxk5mtr3WczjN4ZY', +
+        environment.firebaseAPIKey,
         {
           email: email,
           password: password,
